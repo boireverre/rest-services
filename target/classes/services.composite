@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+    xmlns:frascati="http://frascati.ow2.org/xmlns/sca/1.1" xmlns:web="http://frascati.ow2.org/xmlns/web/1.0"
+    xmlns:sca="http://tuscany.apache.org/xmlns/sca/1.0" name="services">
+
+	<component name="DB">
+        <implementation.java class="fr.midix.services.common.EntityManagerProviderImpl" />
+        <service name="database">
+            <interface.java interface="fr.midix.services.common.Provider" />
+        </service>
+        <property name="persistenceUnitName">jpa-bdd</property>
+    </component>
+
+	<component name="Karotz">
+        <implementation.java class="fr.midix.services.karotz.impl.RESTCallImpl" />
+        <service name="karotz">
+            <frascati:binding.rest uri="/karotz" />
+        </service>
+    </component>
+    
+    <component name="RendezVous">
+        <implementation.java class="fr.midix.services.boireverre.impl.RendezVousManager" />
+        <service name="rendez-vous">
+            <frascati:binding.rest uri="/rdv" />
+        </service>
+        <reference name="db" target="DB/database"/>
+    </component>
+</composite>

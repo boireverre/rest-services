@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * @author midix
  */
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User implements Serializable{
     
     @Id

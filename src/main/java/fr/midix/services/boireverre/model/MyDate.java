@@ -96,6 +96,15 @@ public class MyDate implements Serializable, Comparable<Object> {
         this.dateString = dateFormat.format(dateDate);
     }
     
+    public static MyDate convertStringToMyDate(String date){
+		String[] dates = date.split("/");
+        int day = Integer.parseInt(dates[0]);
+        int month = Integer.parseInt(dates[1]);
+        int year = Integer.parseInt(dates[2]);
+        MyDate myDate = new MyDate(year, month, day, 0, 0);
+        return myDate;
+	}
+    
     public static void main(String[] args){
         MyDate date1 = new MyDate(2012, 5, 21, 22, 18);
         System.out.println(date1.getYear());

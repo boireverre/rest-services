@@ -25,4 +25,12 @@
         </service>
         <reference name="db" target="DB/database"/>
     </component>
+    
+    <component name="User">
+        <implementation.java class="fr.midix.services.boireverre.impl.UserManagerImpl" />
+        <service name="user">
+            <frascati:binding.rest uri="/user" />
+        </service>
+        <reference name="db" target="DB/database"/>
+    </component>
 </composite>

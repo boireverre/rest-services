@@ -17,11 +17,18 @@ public class Place implements Serializable{
     @Id
     @GeneratedValue
     private long id;
-
+    private String name;
+    private String address;
+    private float latitude;
+    private float longitude;
+    
     public Place() {
     }
 
-    
+    public Place(String name, String address){
+    	this.name = name;
+    	this.address = address;
+    }
     
     public long getId() {
         return id;

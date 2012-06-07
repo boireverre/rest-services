@@ -17,19 +17,19 @@ public class User implements Serializable{
     @Id
     private long id;
     private String login;
-    private String town;
     private String password;
-    private MyDate birthday;
+    private String birthday;
+    private String mail;
     
     public User() {
     }
 
-    public User(long id, String login,String password, String town, MyDate birthday){
+    public User(long id, String login,String password, String mail, String birthday){
     	this.id = id;
     	this.login = login;
-    	this.town = town;
     	this.birthday = birthday;
     	this.password = password;
+    	this.mail = mail;
     }
     
     public long getId() {
@@ -48,19 +48,11 @@ public class User implements Serializable{
 		this.login = login;
 	}
 
-	public String getTown() {
-		return town;
-	}
-
-	public void setTown(String town) {
-		this.town = town;
-	}
-
-	public MyDate getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(MyDate birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
     
@@ -72,4 +64,11 @@ public class User implements Serializable{
 		this.password = password;
 	}
     
+    public String getMail() {
+		return mail;
+	}
+    
+    public void setMail(String mail) {
+		this.mail = mail;
+	}
 }

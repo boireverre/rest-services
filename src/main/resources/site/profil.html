@@ -1,0 +1,41 @@
+#parse("header.html")
+#parse("menu.html")
+
+<div id="content">
+	<div id="profilDiv">
+		Identifiant <input type="text" id="login" name="login" disabled="disabled"/> 
+		Adresse mail <input	type="email" id="mail" name="mail" /> 
+		Date de naissance <input type="date" id="birthday" name="birthday" /> 
+		<input type="button" id="modifyUserInformations" value="Modifier mes informations" />
+	</div>
+</div>
+<script>
+$(document).ready(function() {
+	hideAllMessages();
+	$.get("/user/userProfile", {
+		id : sessionStorage.getItem('userId')
+	}, function(data) {
+		var json = eval("(" + data + ")");
+		$("#login").val(json.login);
+		$("#mail").val(json.mail);
+		$("#birthday").val(json.birthday);
+	});
+	
+	$("#modifyUserInformations").click(function() {
+		$.post("/user/modifyProfile", {
+			id : sessionStorage.getItem('userId'),
+			mail : $("#mail").val(),
+			birthday : $("#birthday").val()
+		}, function(data) {})
+		.success(function() { showMessage(
+				"success",
+				"",
+				"Votre profil a été mis à jour.");})
+    	.error(function() { showMessage(
+				"error",
+				"",
+				"Votre profil n'a pas pu être mis à jour.");})
+	});
+});
+</script>
+#parse("footer.html")

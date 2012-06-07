@@ -1,0 +1,57 @@
+#parse("header.html")
+	<div id="connection-panel">
+		<form id="accountCreation">
+			Identifiant <input type="text" id="login" name="login" /> Mot de
+			passe <input type="password" id="password" name="password" />
+			Confirmation du mot de passe <input type="password"
+				id="confirmPassword" name="confirmPassword" /> Adresse mail <input
+				type="email" id="mail" name="mail" /> Date de naissance <input
+				type="date" id="birthday" name="birthday" /> <input type="button"
+				id="create-account-action" value="Créer le compte" />
+		</form>
+	</div>
+		<script>
+		$(document).ready(function() {
+			hideAllMessages();
+			$("#create-account-action").click(function() {
+				if($("#login").val() == "" || $("#password").val() == "" || $("#confirmPassword").val() == "" || $("#mail").val() == "" || $("#birthday").val() == ""){
+					showMessage("error","Erreur","Tous les champs doivent être renseignés.");
+					return;
+				}
+				if($("#password").val() != $("#confirmPassword").val()){
+					showMessage("error","Erreur","Le mot de passe et sa confirmation ne sont pas identiques.");
+					return;
+				}
+				if(!checkEmail($("#mail").val())){
+					showMessage("error","Erreur","Adresse email incorrecte.");
+					return;
+				}
+				if(!checkDate($("#birthday").val())){
+					showMessage("error","Erreur","Date de naissance incorrecte.");
+					return;
+				}
+				$.get("/user/checkLoginExists", {
+					login : $("#login").val()
+				}, function(data) {
+					bool = eval(data);
+					if(bool){
+						showMessage("error","Erreur","Cet identifiant est déjà pris.");
+						return;
+					}
+					else{
+						$.post("/user/createUser", {
+							login : $("#login").val(),
+							password : $("#password").val(),
+							mail : $("#mail").val(),
+							birthday : $("#birthday").val()
+						}, function(data) {
+							sessionStorage.setItem('userId', data);
+							$(location).attr('href', "index.html");
+						});
+					}
+				});
+			});
+		});
+	</script>
+#parse("footer.html")
+

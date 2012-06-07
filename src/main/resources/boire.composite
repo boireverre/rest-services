@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+    xmlns:frascati="http://frascati.ow2.org/xmlns/sca/1.1" xmlns:web="http://frascati.ow2.org/xmlns/web/1.0"
+    xmlns:sca="http://tuscany.apache.org/xmlns/sca/1.0" name="boire">
+
+	<component name="Boire">
+        <service name="Velocity">
+            <interface.java interface="javax.servlet.Servlet" />
+            <sca:binding.http uri="/site" />
+        </service>
+        <property name="title">boire-un-verre</property>
+        <web:implementation.velocity location="site"
+            default="connection.html" />
+    </component>
+
+	<component name="DB">
+        <implementation.java class="fr.midix.services.common.EntityManagerProviderImpl" />
+        <service name="database">
+            <interface.java interface="fr.midix.services.common.Provider" />
+        </service>
+        <property name="persistenceUnitName">jpa-bdd</property>
+    </component>
+    
+    <component name="RendezVous">
+        <implementation.java class="fr.midix.services.boireverre.impl.RendezVousManager" />
+        <service name="rendez-vous">
+            <frascati:binding.rest uri="/rdv" />
+        </service>
+        <reference name="db" target="DB/database"/>
+    </component>
+    
+    <component name="User">
+        <implementation.java class="fr.midix.services.boireverre.impl.UserManagerImpl" />
+        <service name="user">
+            <frascati:binding.rest uri="/user" />
+        </service>
+        <reference name="db" target="DB/database"/>
+    </component>
+</composite>
